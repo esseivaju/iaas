@@ -24,7 +24,7 @@ resources:
                           prefix: "/"
                           grpc: {}
                         route:
-                          cluster: discoveryservice
+                          cluster: triton-inference-service
                           timeout: 600s
                           idle_timeout: 0s
                           retry_policy:
