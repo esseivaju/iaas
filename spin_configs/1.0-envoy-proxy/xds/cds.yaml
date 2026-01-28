@@ -9,8 +9,8 @@ resources:
       eds_config:
         resource_api_version: V3
         path_config_source:
-          path: "/envoy-config/envoy_eds.yaml"
-          watched_directory: {"path": "/envoy-config"}
+          path: "/envoy-config/xds/eds.yaml"
+          watched_directory: {"path": "/envoy-config/xds"}
     lb_policy: LEAST_REQUEST
     # Allow larger gRPC/HTTP2 payloads
     http2_protocol_options: {}

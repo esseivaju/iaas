@@ -13,10 +13,10 @@ dynamic_resources:
   cds_config:
     resource_api_version: V3
     path_config_source:
-      path: "/envoy-config/cds.yaml"
-      watched_directory: {"path": "/envoy-config"}
+      path: "/envoy-config/xds/cds.yaml"
+      watched_directory: {"path": "/envoy-config/xds"}
   lds_config:
     resource_api_version: V3
     path_config_source:
-      path: "/envoy-config/lds.yaml"
-      watched_directory: {"path": "/envoy-config"}
+      path: "/envoy-config/xds/lds.yaml"
+      watched_directory: {"path": "/envoy-config/xds"}
