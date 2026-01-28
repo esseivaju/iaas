@@ -9,70 +9,14 @@ admin:
       address: 0.0.0.0
       port_value: 9191
 
-static_resources:
-  clusters:
-  - name: discoveryservice
-    connect_timeout: 10s
-    type: EDS
-    eds_cluster_config:
-      service_name: discoveryservice
-      eds_config:
-        path_config_source:
-          path: "/envoy-config/envoy_eds.yaml"
-          watched_directory: {"path": "/envoy-config"}
-    lb_policy: LEAST_REQUEST
-    # Allow larger gRPC/HTTP2 payloads
-    http2_protocol_options: {}
-    outlier_detection:
-      consecutive_5xx: 5
-      interval: 10s
-      base_ejection_time: 30s
-      max_ejection_percent: 50
-      enforcing_consecutive_5xx: 100
-
-    circuit_breakers:
-      thresholds:
-      - max_connections: 500
-        max_pending_requests: 200
-        max_requests: 1000
-        max_retries: 3
-
-  listeners:
-  - name: listener_0
-    address:
-      socket_address:
-        address: 0.0.0.0
-        port_value: 9097
-    filter_chains:
-    - filters:
-      - name: envoy.filters.network.http_connection_manager
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-          stat_prefix: tcp_proxy
-          http2_protocol_options: {}
-          route_config:
-            name: cluster-route
-            validate_clusters: false
-            virtual_hosts:
-              - name: cluster
-                domains: ["*"]
-                routes:
-                  - match:
-                      prefix: "/"
-                      grpc: {}
-                    route:
-                      cluster: discoveryservice
-                      timeout: 600s
-                      idle_timeout: 0s
-                      retry_policy:
-                        retry_on: "5xx,reset,gateway-error,cancelled,resource-exhausted,unavailable"  # types of failures to retry
-                        num_retries: 3                      # max retries per request
-                        per_try_timeout: 300s                # optional: timeout per retry attempt
-
-          codec_type: AUTO
-          http_filters:
-          - name: envoy.filters.http.router
-            typed_config:
-              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-    per_connection_buffer_limit_bytes: 150000000
-
+dynamic_resources:
+  cds_config:
+    resource_api_version: V3
+    path_config_source:
+      path: "/envoy-config/cds.yaml"
+      watched_directory: {"path": "/envoy-config"}
+  lds_config:
+    resource_api_version: V3
+    path_config_source:
+      path: "/envoy-config/lds.yaml"
+      watched_directory: {"path": "/envoy-config"}

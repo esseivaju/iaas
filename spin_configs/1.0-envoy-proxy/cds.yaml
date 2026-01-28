@@ -1,0 +1,28 @@
+version_info: "0"
+resources:
+  - "@type": type.googleapis.com/envoy.config.cluster.v3.Cluster
+    name: triton-inference-service
+    connect_timeout: 10s
+    type: EDS
+    eds_cluster_config:
+      service_name: triton-inference-service
+      eds_config:
+        resource_api_version: V3
+        path_config_source:
+          path: "/envoy-config/envoy_eds.yaml"
+          watched_directory: {"path": "/envoy-config"}
+    lb_policy: LEAST_REQUEST
+    # Allow larger gRPC/HTTP2 payloads
+    http2_protocol_options: {}
+    outlier_detection:
+      consecutive_5xx: 5
+      interval: 10s
+      base_ejection_time: 30s
+      max_ejection_percent: 50
+      enforcing_consecutive_5xx: 100
+    circuit_breakers:
+      thresholds:
+        - max_connections: 500
+          max_pending_requests: 200
+          max_requests: 1000
+          max_retries: 3

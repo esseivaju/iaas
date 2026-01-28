@@ -1,7 +1,7 @@
-fsfsaiofhsafversion_info: '0'
+version_info: '0'
 resources:
 - "@type": type.googleapis.com/envoy.config.endpoint.v3.ClusterLoadAssignment
-  cluster_name: discoveryservice
+  cluster_name: triton-inference-service
   endpoints:
   - lb_endpoints:
     - endpoint:
