@@ -254,11 +254,11 @@ spec:
             - mountPath: /envoy-config
               name: vol-qobq8
         - args:
-            - /envoy-config/eds.yaml
+            - /envoy-config/eds-delta
             - '5'
           command:
-            - /envoy-config/watch_eds.sh
-          image: alpine:latest
+            - /envoy-config/watch_eds.py
+          image: python:3.11.14-alpine3.23
           imagePullPolicy: Always
           name: eds-updater
           resources: {}
