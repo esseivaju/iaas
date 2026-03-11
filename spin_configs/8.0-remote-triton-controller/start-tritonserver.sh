@@ -59,7 +59,12 @@ if [ -z "$CONTROLLER_TOKEN" ]; then
   exit 1
 fi
 
-FILE_UPDATE_DIR="$(realpath "$OUTPUT_DIR")/nodes"
+mkdir -p "$OUTPUT_DIR"
+if ! FILE_UPDATE_DIR_BASE="$(realpath "$OUTPUT_DIR")"; then
+  echo "Failed to resolve output directory: $OUTPUT_DIR" >&2
+  exit 1
+fi
+FILE_UPDATE_DIR="${FILE_UPDATE_DIR_BASE}/nodes"
 mkdir -p "$FILE_UPDATE_DIR"
 OUTPUTFILE="$FILE_UPDATE_DIR/$(basename "$OUTPUTFILE")"
 
