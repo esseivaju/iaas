@@ -20,6 +20,10 @@
 #   optional; defaults to NERSC endpoint URL
 # - TRITON_HEARTBEAT_INTERVAL_SECONDS
 #   optional; heartbeat interval, defaults to 10 seconds
+# - TRITON_CONTROLLER_CONNECT_TIMEOUT_SECONDS
+#   optional; curl connect timeout for controller requests, defaults to 5 seconds
+# - TRITON_CONTROLLER_MAX_TIME_SECONDS
+#   optional; total curl timeout for controller requests, defaults to 15 seconds
 # - SLURM_JOBID / SLURMD_NODENAME / HOSTNAME
 #   provided by the remote job environment and used to derive backend identity
 #   and log/output locations
@@ -53,6 +57,8 @@ LAUNCH_TOKEN="${REMOTE_TRITON_LAUNCH_TOKEN:-}"
 CONTROLLER_URL="${REMOTE_TRITON_CONTROLLER_URL:-https://amsc-d3.ml4phys.com}"
 CONTROLLER_TOKEN="${CONTROLLER_API_TOKEN:-}"
 HEARTBEAT_INTERVAL_SECONDS="${TRITON_HEARTBEAT_INTERVAL_SECONDS:-10}"
+CONTROLLER_CONNECT_TIMEOUT_SECONDS="${TRITON_CONTROLLER_CONNECT_TIMEOUT_SECONDS:-5}"
+CONTROLLER_MAX_TIME_SECONDS="${TRITON_CONTROLLER_MAX_TIME_SECONDS:-15}"
 
 if [ -z "$CONTROLLER_TOKEN" ]; then
   echo "CONTROLLER_API_TOKEN must be set" >&2
@@ -102,6 +108,8 @@ controller_post() {
   local endpoint="$1"
   local payload="$2"
   curl --silent --show-error --fail \
+    --connect-timeout "${CONTROLLER_CONNECT_TIMEOUT_SECONDS}" \
+    --max-time "${CONTROLLER_MAX_TIME_SECONDS}" \
     -X POST \
     -H "Authorization: Bearer ${CONTROLLER_TOKEN}" \
     -H "Content-Type: application/json" \
@@ -175,9 +183,6 @@ REGISTER_PAYLOAD=$(cat <<JSON
 {"instance_id":"${INSTANCE_ID}","ip":"${HOSTNAME_IP}","http_port":${TRITON_HTTP_PORT},"grpc_port":${TRITON_GRPC_PORT},"metrics_port":${TRITON_METRICS_PORT}${LAUNCH_TOKEN_JSON_FRAGMENT}}
 JSON
 )
-
-echo "Register payload:"
-echo $REGISTER_PAYLOAD
 
 echo "[slurm] registering Triton backend with controller at ${CONTROLLER_URL}/register"
 if ! controller_post "/api/register" "$REGISTER_PAYLOAD" >/dev/null; then
