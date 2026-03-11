@@ -13,7 +13,7 @@ metadata:
   creationTimestamp: '2025-09-11T23:34:57Z'
   generation: 15
   labels:
-    workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-prometheus
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-prometheus
   managedFields:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
@@ -131,7 +131,7 @@ metadata:
       subresource: status
       time: '2025-09-12T06:01:00Z'
   name: prometheus
-  namespace: iaas-gnn4itk
+  namespace: amsc-d3
   resourceVersion: '1008908019'
   uid: b13e7144-2c85-4079-bc3c-5274cc80f3cb
 spec:
@@ -140,7 +140,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-prometheus
+      workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-prometheus
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -159,8 +159,8 @@ spec:
         nersc.gov/username: xju
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-prometheus
-      namespace: iaas-gnn4itk
+        workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-prometheus
+      namespace: amsc-d3
     spec:
       affinity: {}
       containers:

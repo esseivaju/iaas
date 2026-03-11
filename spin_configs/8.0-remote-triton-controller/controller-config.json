@@ -1,0 +1,75 @@
+{
+  "interval_seconds": 30,
+  "stabilization_seconds": 120,
+  "min_replicas": 1,
+  "max_replicas": 8,
+  "max_scale_up_step": 1,
+  "max_scale_down_step": 1,
+
+  "prometheus_url": "http://prometheus.amsc-d3.svc.cluster.local:9090",
+  "prometheus_query": "sum(rate(envoy_cluster_upstream_rq_total[1m]))",
+  "prometheus_timeout_seconds": 5.0,
+  "prometheus_retry_attempts": 3,
+  "prometheus_retry_backoff_seconds": 1.0,
+  "scale_up_threshold": 100.0,
+  "scale_down_threshold": 30.0,
+
+  "launch_reservation_timeout_seconds": 60,
+  "registration_timeout_seconds": 300,
+  "heartbeat_timeout_seconds": 30,
+  "stale_backend_gc_seconds": 300,
+  "drain_seconds": 30,
+
+  "iri_base_url": "https://api.iri.nersc.gov",
+  "iri_access_token_env": "IRI_ACCESS_TOKEN",
+  "iri_resource_id": "b3af92a7-cf5f-42cf-a4be-6f6554a779e3",
+  "iri_launch_token_env_name": "REMOTE_TRITON_LAUNCH_TOKEN",
+  "iri_retry_attempts": 3,
+  "iri_retry_backoff_seconds": 1.0,
+  "iri_job_spec": {
+    "executable": "bash",
+    "arguments": [
+      "/global/cfs/cdirs/m2845/amsc-d3/triton-models/start-tritonserver.sh",
+      "-d",
+      "/global/cfs/cdirs/m2845/amsc-d3/workdir"
+    ],
+    "directory": "/global/cfs/cdirs/m2845/amsc-d3",
+    "name": "triton-inference-server",
+    "inherit_environment": true,
+    "environment": {},
+    "stdout_path": "/global/cfs/cdirs/m2845/amsc-d3/output.txt",
+    "stderr_path": "/global/cfs/cdirs/m2845/amsc-d3/error.txt",
+    "resources": {
+      "node_count": 1,
+      "process_count": 1,
+      "processes_per_node": 1,
+      "cpu_cores_per_process": 64,
+      "gpu_cores_per_process": 4,
+      "exclusive_node_use": true
+    },
+    "attributes": {
+      "duration": 1800,
+      "queue_name": "debug",
+      "account": "m2845",
+      "custom_attributes": {}
+    },
+    "launcher": "single"
+  },
+
+  "postgres_dsn_env": "POSTGRES_DSN",
+  "postgres_host_env": "POSTGRES_HOST",
+  "postgres_port_env": "POSTGRES_PORT",
+  "postgres_db_env": "POSTGRES_DB",
+  "postgres_user_env": "POSTGRES_USER",
+  "postgres_password_env": "POSTGRES_PASSWORD",
+  "postgres_sslmode_env": "POSTGRES_SSLMODE",
+  "postgres_leader_lock_key": 81234567,
+  "postgres_min_connections": 1,
+  "postgres_max_connections": 10,
+
+  "api_auth_token_env": "CONTROLLER_API_TOKEN",
+
+  "http_bind_host": "0.0.0.0",
+  "http_bind_port": 8080,
+  "envoy_cluster_name": "triton-inference-service"
+}

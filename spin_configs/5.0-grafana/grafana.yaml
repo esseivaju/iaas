@@ -2,20 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: '7'
+    deployment.kubernetes.io/revision: '5'
     field.cattle.io/publicEndpoints: >-
-      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"iaas-gnn4itk:grafana","ingressName":"iaas-gnn4itk:ingress-grafana","hostname":"iaasdemo.ml4phys.com","path":"/grafana","allNodes":true},{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"iaas-gnn4itk:grafana","ingressName":"iaas-gnn4itk:ingress-grafana","hostname":"ingress-grafana.iaas-gnn4itk.production.svc.spin.nersc.org","path":"/","allNodes":true}]
-    nersc.gov/collab_uids: ''
-    nersc.gov/gid: '76739'
-    nersc.gov/gids: >-
-      4871,53006,57596,72330,76739,49584,78767,78781,81765,74560,95991,96414,103452,103453,110987
+      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:grafana","ingressName":"amsc-d3:ingress","hostname":"amsc-d3.ml4phys.com","path":"/grafana","allNodes":true},{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:grafana","ingressName":"amsc-d3:ingress","hostname":"ingress.amsc-d3.production.svc.spin.nersc.org","path":"/grafana","allNodes":true}]
+    nersc.gov/collab_uids: '102407'
+    nersc.gov/gid: '81687'
+    nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
     nersc.gov/roles: user
-    nersc.gov/uid: '76739'
-    nersc.gov/username: xju
-  creationTimestamp: '2025-09-12T05:47:20Z'
-  generation: 13
+    nersc.gov/uid: '81687'
+    nersc.gov/username: esseivaj
+  creationTimestamp: '2026-03-09T23:39:05Z'
+  generation: 10
   labels:
-    workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-grafana
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-grafana
   managedFields:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
@@ -100,7 +99,7 @@ metadata:
               f:terminationGracePeriodSeconds: {}
               f:volumes:
                 .: {}
-                k:{"name":"vol-vo5fg"}:
+                k:{"name":"vol-0sdem"}:
                   .: {}
                   f:name: {}
                   f:persistentVolumeClaim:
@@ -108,7 +107,7 @@ metadata:
                     f:claimName: {}
       manager: agent
       operation: Update
-      time: '2025-09-12T18:54:32Z'
+      time: '2026-03-10T21:50:18Z'
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -142,18 +141,18 @@ metadata:
       manager: kube-controller-manager
       operation: Update
       subresource: status
-      time: '2025-09-12T18:54:32Z'
+      time: '2026-03-10T21:50:21Z'
   name: grafana
-  namespace: iaas-gnn4itk
-  resourceVersion: '1009343052'
-  uid: bd04bfc4-fa30-4d1a-869c-31e2428041ca
+  namespace: amsc-d3
+  resourceVersion: '1128787761'
+  uid: 0177acd2-2116-43d2-bd77-5b66735fcc37
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-grafana
+      workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-grafana
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -162,17 +161,16 @@ spec:
   template:
     metadata:
       annotations:
-        nersc.gov/collab_uids: ''
-        nersc.gov/gid: '76739'
-        nersc.gov/gids: >-
-          4871,53006,57596,72330,76739,49584,78767,78781,81765,74560,95991,96414,103452,103453,110987
+        nersc.gov/collab_uids: '102407'
+        nersc.gov/gid: '81687'
+        nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
         nersc.gov/roles: user
-        nersc.gov/uid: '76739'
-        nersc.gov/username: xju
+        nersc.gov/uid: '81687'
+        nersc.gov/username: esseivaj
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-grafana
-      namespace: iaas-gnn4itk
+        workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-grafana
+      namespace: amsc-d3
     spec:
       containers:
         - env:
@@ -181,7 +179,7 @@ spec:
             - name: KUBERNETES_CLUSTER_DOMAIN
               value: cluster.local
             - name: GF_SERVER_ROOT_URL
-              value: '%(protocol)s://%(domain)s/grafana/'
+              value: '%(protocol)s://%(domain)s/grafana'
             - name: GF_SERVER_SERVE_FROM_SUB_PATH
               value: 'true'
           image: grafana/grafana-oss:11.6.0
@@ -189,7 +187,7 @@ spec:
           name: container-0
           ports:
             - containerPort: 3000
-              name: portal
+              name: grafana
               protocol: TCP
           resources: {}
           securityContext:
@@ -204,32 +202,32 @@ spec:
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /var/lib/grafana
-              name: vol-vo5fg
+              name: vol-0sdem
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: vol-vo5fg
+        - name: vol-0sdem
           persistentVolumeClaim:
-            claimName: grafana-data
+            claimName: grafana-store
 status:
   availableReplicas: 1
   conditions:
-    - lastTransitionTime: '2025-09-12T05:47:29Z'
-      lastUpdateTime: '2025-09-12T05:47:29Z'
+    - lastTransitionTime: '2026-03-09T23:39:05Z'
+      lastUpdateTime: '2026-03-10T21:28:15Z'
+      message: ReplicaSet "grafana-76cf588c64" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: 'True'
+      type: Progressing
+    - lastTransitionTime: '2026-03-10T21:50:21Z'
+      lastUpdateTime: '2026-03-10T21:50:21Z'
       message: Deployment has minimum availability.
       reason: MinimumReplicasAvailable
       status: 'True'
       type: Available
-    - lastTransitionTime: '2025-09-12T05:47:20Z'
-      lastUpdateTime: '2025-09-12T17:03:57Z'
-      message: ReplicaSet "grafana-67cc6d7fd5" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: 'True'
-      type: Progressing
-  observedGeneration: 13
+  observedGeneration: 10
   readyReplicas: 1
   replicas: 1
   updatedReplicas: 1

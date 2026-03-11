@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    field.cattle.io/targetWorkloadIds: '["amsc-d3/grafana"]'
+    field.cattle.io/targetWorkloadIds: '["amsc-d3/prometheus"]'
     management.cattle.io/ui-managed: 'true'
     nersc.gov/clustername: production
     nersc.gov/collab_uids: '102407'
@@ -12,7 +12,7 @@ metadata:
     nersc.gov/serveralias: svc
     nersc.gov/uid: '81687'
     nersc.gov/username: esseivaj
-  creationTimestamp: '2026-03-09T23:39:05Z'
+  creationTimestamp: '2026-03-09T20:04:21Z'
   managedFields:
     - apiVersion: v1
       fieldsType: FieldsV1
@@ -24,12 +24,12 @@ metadata:
             f:management.cattle.io/ui-managed: {}
           f:ownerReferences:
             .: {}
-            k:{"uid":"0177acd2-2116-43d2-bd77-5b66735fcc37"}: {}
+            k:{"uid":"352ce96f-6fe7-4f3d-bfc1-71051c4f2ead"}: {}
         f:spec:
           f:internalTrafficPolicy: {}
           f:ports:
             .: {}
-            k:{"port":3000,"protocol":"TCP"}:
+            k:{"port":9090,"protocol":"TCP"}:
               .: {}
               f:name: {}
               f:port: {}
@@ -40,32 +40,32 @@ metadata:
           f:type: {}
       manager: agent
       operation: Update
-      time: '2026-03-09T23:39:05Z'
-  name: grafana
+      time: '2026-03-09T20:04:21Z'
+  name: prometheus
   namespace: amsc-d3
   ownerReferences:
     - apiVersion: apps/v1
       controller: true
       kind: Deployment
-      name: grafana
-      uid: 0177acd2-2116-43d2-bd77-5b66735fcc37
-  resourceVersion: '1128253718'
-  uid: 2915327f-f375-4d68-ab71-d6cecee6414a
+      name: prometheus
+      uid: 352ce96f-6fe7-4f3d-bfc1-71051c4f2ead
+  resourceVersion: '1128167806'
+  uid: 105ea323-48aa-40fd-9e2f-394a47f2f76f
 spec:
-  clusterIP: 10.43.205.28
+  clusterIP: 10.43.248.61
   clusterIPs:
-    - 10.43.205.28
+    - 10.43.248.61
   internalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - name: grafana
-      port: 3000
+    - name: prometheus
+      port: 9090
       protocol: TCP
-      targetPort: 3000
+      targetPort: 9090
   selector:
-    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-grafana
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-prometheus
   sessionAffinity: None
   type: ClusterIP
 status:

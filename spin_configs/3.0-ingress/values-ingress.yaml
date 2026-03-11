@@ -1,19 +1,21 @@
 # Default values for spin-acme.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
+# Update the placeholders below before installing the chart.
+# You can run ./prepare-values.sh to replace the {{placeholders}} in this file.
+# The script writes values.yaml for installation.
+---
 replicaCount: 1
 
 image:
-  repository: ghcr.io/dingp/acme
+  repository: docker.io/esseivaj/acme
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
+nameOverride: ''
+fullnameOverride: ''
 
 podAnnotations: {}
 podLabels: {}
@@ -23,11 +25,11 @@ podSecurityContext:
 
 securityContext:
   capabilities:
-     drop:
-     - ALL
+    drop:
+      - ALL
   readOnlyRootFilesystem: false
   runAsNonRoot: true
-  runAsUser: 76739 # NERSC UID
+  runAsUser: 81687 # NERSC UID
 
 service:
   type: ClusterIP
@@ -39,36 +41,40 @@ ingress:
   className: nginx
   hosts:
     # you can have multiple hosts, all will be added to the same ingress
-    - host: iaasdemo.ml4phys.com # DNS CNAME record, or <ingress_name>.<namespace>.<cluster>.svc.spin.nersc.org
+    - host: amsc-d3.ml4phys.com # DNS CNAME record, or <ingress_name>.<namespace>.<cluster>.svc.spin.nersc.org
       paths:
         - path: /
           pathType: Prefix
   tls:
-    # you can have multiple hosts, all will be added to the same ingres, and use the same certificate (with DNS alias in SANs)
+    # you can have multiple hosts, all will be added to the same ingress,
+    # and use the same certificate (with DNS alias in SANs)
     - hosts:
-       - iaasdemo.ml4phys.com # same as .ingress.hosts.host
+        - amsc-d3.ml4phys.com # same as .ingress.hosts.host
 
 # concatenate the list .ingress.hosts.host into ":" separated string
-domain: iaasdemo.ml4phys.com:ingress.iaas-gnn4itk.production.svc.spin.nersc.org
+domain: amsc-d3.ml4phys.com
 
-email: xju@lbl.gov # email address to be used for the ACME account
+email: jesseiva@lbl.gov # email address to be used for the ACME account
 
 cluster: production.svc.spin.nersc.org # NERSC cluster name, development.svc.spin.nersc.org, or production.svc.spin.nersc.org
 
+useCase: case2 # case1 uses existing web server, case2 creates a new one
+
 webServer:
-  webrootPath: "/www"
+  webrootPath: '/www'
+  # Set by prepare-values.sh based on use_case (case1 or case2).
   existing: false # true for case 1; false for case 2 -- use existing deployment and PVC
-  deploymentName: envoy-service # case 2, use this deployment
-  claimName: pvc-envoy-webroot # case 2, use this PVC
+  deploymentName: existing-websrv # case 2, use this deployment
+  claimName: pvc-existing-webroot # case 2, use this PVC
 
 kubeconfig:
   secretName: kubeconfig
 
 cert:
-  secretName: tls-cert
+  secretName: tls-cert-ingress
 
 cronJob:
-  schedule: "5 12  1 */2 *" # every 2 months
+  schedule: '5 12  1 */2 *' # every 2 months
 
 autoscaling:
   enabled: false

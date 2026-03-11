@@ -3,15 +3,14 @@ kind: Service
 metadata:
   annotations:
     nersc.gov/clustername: production
-    nersc.gov/collab_uids: ''
-    nersc.gov/gid: '76739'
-    nersc.gov/gids: >-
-      4871,53006,57596,72330,76739,49584,78767,78781,81765,74560,95991,96414,103452,103453,110987
+    nersc.gov/collab_uids: '102407'
+    nersc.gov/gid: '81687'
+    nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453
     nersc.gov/roles: user
     nersc.gov/serveralias: svc
-    nersc.gov/uid: '76739'
-    nersc.gov/username: xju
-  creationTimestamp: '2025-09-09T05:48:45Z'
+    nersc.gov/uid: '81687'
+    nersc.gov/username: esseivaj
+  creationTimestamp: '2026-01-28T22:17:00Z'
   managedFields:
     - apiVersion: v1
       fieldsType: FieldsV1
@@ -37,15 +36,15 @@ metadata:
           f:type: {}
       manager: agent
       operation: Update
-      time: '2025-09-10T06:07:56Z'
+      time: '2026-01-29T23:26:34Z'
   name: envoy-service
-  namespace: iaas-gnn4itk
-  resourceVersion: '1007624163'
-  uid: 7f702770-9e7a-4163-a66e-3395b7c2fd49
+  namespace: amsc-d3
+  resourceVersion: '1104667548'
+  uid: a60ee3e8-236a-4ef7-93f2-69864bde831a
 spec:
-  clusterIP: 10.43.155.134
+  clusterIP: 10.43.158.200
   clusterIPs:
-    - 10.43.155.134
+    - 10.43.158.200
   internalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
@@ -60,7 +59,7 @@ spec:
       protocol: TCP
       targetPort: 9191
   selector:
-    workload.user.cattle.io/workloadselector: apps.deployment-iaas-gnn4itk-envoy-proxy
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
   sessionAffinity: None
   type: ClusterIP
 status:

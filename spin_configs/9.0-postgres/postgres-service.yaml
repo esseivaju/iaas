@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    field.cattle.io/targetWorkloadIds: '["amsc-d3/grafana"]'
+    field.cattle.io/targetWorkloadIds: '["amsc-d3/postgres"]'
     management.cattle.io/ui-managed: 'true'
     nersc.gov/clustername: production
     nersc.gov/collab_uids: '102407'
@@ -12,7 +12,7 @@ metadata:
     nersc.gov/serveralias: svc
     nersc.gov/uid: '81687'
     nersc.gov/username: esseivaj
-  creationTimestamp: '2026-03-09T23:39:05Z'
+  creationTimestamp: '2026-03-09T18:27:35Z'
   managedFields:
     - apiVersion: v1
       fieldsType: FieldsV1
@@ -24,12 +24,12 @@ metadata:
             f:management.cattle.io/ui-managed: {}
           f:ownerReferences:
             .: {}
-            k:{"uid":"0177acd2-2116-43d2-bd77-5b66735fcc37"}: {}
+            k:{"uid":"bb2d364f-0e6e-408d-8d0a-80e288f35830"}: {}
         f:spec:
           f:internalTrafficPolicy: {}
           f:ports:
             .: {}
-            k:{"port":3000,"protocol":"TCP"}:
+            k:{"port":5432,"protocol":"TCP"}:
               .: {}
               f:name: {}
               f:port: {}
@@ -40,32 +40,32 @@ metadata:
           f:type: {}
       manager: agent
       operation: Update
-      time: '2026-03-09T23:39:05Z'
-  name: grafana
+      time: '2026-03-09T18:27:35Z'
+  name: postgres
   namespace: amsc-d3
   ownerReferences:
     - apiVersion: apps/v1
       controller: true
       kind: Deployment
-      name: grafana
-      uid: 0177acd2-2116-43d2-bd77-5b66735fcc37
-  resourceVersion: '1128253718'
-  uid: 2915327f-f375-4d68-ab71-d6cecee6414a
+      name: postgres
+      uid: bb2d364f-0e6e-408d-8d0a-80e288f35830
+  resourceVersion: '1128128825'
+  uid: a0caf0c0-77f1-4d6c-a3d4-bbd13bcc8a30
 spec:
-  clusterIP: 10.43.205.28
+  clusterIP: 10.43.124.69
   clusterIPs:
-    - 10.43.205.28
+    - 10.43.124.69
   internalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - name: grafana
-      port: 3000
+    - name: postgres
+      port: 5432
       protocol: TCP
-      targetPort: 3000
+      targetPort: 5432
   selector:
-    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-grafana
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-postgres
   sessionAffinity: None
   type: ClusterIP
 status:

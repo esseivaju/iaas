@@ -3,35 +3,47 @@ kind: Ingress
 metadata:
   annotations:
     field.cattle.io/publicEndpoints: >-
-      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"iaas-gnn4itk:envoy-service","ingressName":"iaas-gnn4itk:ingress","hostname":"iaasdemo.ml4phys.com","path":"/","allNodes":true},{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"iaas-gnn4itk:envoy-service","ingressName":"iaas-gnn4itk:ingress","hostname":"ingress.iaas-gnn4itk.production.svc.spin.nersc.org","path":"/","allNodes":true}]
+      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:grafana","ingressName":"amsc-d3:ingress","hostname":"amsc-d3.ml4phys.com","path":"/grafana","allNodes":true},{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:remote-triton-controller","ingressName":"amsc-d3:ingress","hostname":"amsc-d3.ml4phys.com","path":"/api","allNodes":true}]
     kubectl.kubernetes.io/last-applied-configuration: >
-      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"ingress","namespace":"iaas-gnn4itk"},"spec":{"ingressClassName":"nginx","rules":[{"host":"iaasdemo.ml4phys.com","http":{"paths":[{"backend":{"service":{"name":"demov1-spin-acme-websrv","port":{"number":8080}}},"path":"/","pathType":"Prefix"}]}},{"host":"ingress.iaas-gnn4itk.production.svc.spin.nersc.org","http":{"paths":[{"backend":{"service":{"name":"demov1-spin-acme-websrv","port":{"number":8080}}},"path":"/","pathType":"Prefix"}]}}]}}
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"ingress","namespace":"amsc-d3"},"spec":{"ingressClassName":"nginx","rules":[{"host":"amsc-d3.ml4phys.com","http":{"paths":[{"backend":{"service":{"name":"acmecron-ingress-spin-acme-websrv","port":{"number":8080}}},"path":"/","pathType":"Prefix"}]}},{"host":"ingress.amsc-d3.production.svc.spin.nersc.org","http":{"paths":[{"backend":{"service":{"name":"acmecron-ingress-spin-acme-websrv","port":{"number":8080}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["amsc-d3.ml4phys.com","ingress.amsc-d3.production.svc.spin.nersc.org"],"secretName":"tls-cert-ingress"}]}}
+    meta.helm.sh/release-name: acmecron-ingress
+    meta.helm.sh/release-namespace: amsc-d3
     nersc.gov/clustername: production
-    nersc.gov/collab_uids: ''
-    nersc.gov/gid: '76739'
-    nersc.gov/gids: >-
-      4871,53006,57596,72330,76739,49584,78767,78781,81765,74560,95991,96414,103452,103453,110987
+    nersc.gov/collab_uids: '102407'
+    nersc.gov/gid: '81687'
+    nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
     nersc.gov/roles: user
     nersc.gov/serveralias: svc
-    nersc.gov/uid: '76739'
-    nersc.gov/username: xju
-    nginx.ingress.kubernetes.io/backend-protocol: GRPC
-    nginx.ingress.kubernetes.io/proxy-body-size: 100m
-  creationTimestamp: '2025-09-12T16:44:25Z'
-  generation: 4
+    nersc.gov/uid: '81687'
+    nersc.gov/username: esseivaj
+  creationTimestamp: '2026-03-11T17:38:24Z'
+  generation: 5
+  labels:
+    app.kubernetes.io/instance: acmecron-ingress
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: spin-acme
+    app.kubernetes.io/version: 1.16.0
+    helm.sh/chart: spin-acme-0.1.0
   managedFields:
     - apiVersion: networking.k8s.io/v1
       fieldsType: FieldsV1
       fieldsV1:
         f:metadata:
           f:annotations:
-            .: {}
-            f:kubectl.kubernetes.io/last-applied-configuration: {}
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+          f:labels:
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/version: {}
+            f:helm.sh/chart: {}
         f:spec:
           f:ingressClassName: {}
-      manager: kubectl-client-side-apply
-      operation: Update
-      time: '2025-09-12T16:44:24Z'
+          f:tls: {}
+      manager: helm
+      operation: Apply
+      time: '2026-03-11T17:38:22Z'
     - apiVersion: networking.k8s.io/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -41,53 +53,57 @@ metadata:
       manager: nginx-ingress-controller
       operation: Update
       subresource: status
-      time: '2025-09-12T17:49:52Z'
+      time: '2026-03-11T17:38:26Z'
+    - apiVersion: networking.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2026-03-11T17:40:19Z'
     - apiVersion: networking.k8s.io/v1
       fieldsType: FieldsV1
       fieldsV1:
         f:metadata:
           f:annotations:
             f:field.cattle.io/publicEndpoints: {}
-            f:nginx.ingress.kubernetes.io/backend-protocol: {}
-            f:nginx.ingress.kubernetes.io/proxy-body-size: {}
         f:spec:
           f:rules: {}
-          f:tls: {}
       manager: agent
       operation: Update
-      time: '2025-09-12T18:54:32Z'
+      time: '2026-03-11T18:02:57Z'
   name: ingress
-  namespace: iaas-gnn4itk
-  resourceVersion: '1009343035'
-  uid: c5ff2c13-2d14-462a-afb2-0e7a871bc296
+  namespace: amsc-d3
+  resourceVersion: '1129270424'
+  uid: af03c098-cc82-41b6-9c5b-37d7c1a26235
 spec:
   ingressClassName: nginx
   rules:
-    - host: iaasdemo.ml4phys.com
+    - host: amsc-d3.ml4phys.com
       http:
         paths:
           - backend:
               service:
-                name: envoy-service
+                name: grafana
                 port:
-                  number: 9097
-            path: /
+                  number: 3000
+            path: /grafana
             pathType: Prefix
-    - host: ingress.iaas-gnn4itk.production.svc.spin.nersc.org
-      http:
-        paths:
           - backend:
               service:
-                name: envoy-service
+                name: remote-triton-controller
                 port:
-                  number: 9097
-            path: /
+                  number: 8080
+            path: /api
             pathType: Prefix
+    - host: ingress.amsc-d3.production.svc.spin.nersc.org
   tls:
     - hosts:
-        - iaasdemo.ml4phys.com
-        - ingress.iaas-gnn4itk.production.svc.spin.nersc.org
-      secretName: tls-cert
+        - amsc-d3.ml4phys.com
+        - ingress.amsc-d3.production.svc.spin.nersc.org
+      secretName: tls-cert-ingress
 status:
   loadBalancer:
     ingress:

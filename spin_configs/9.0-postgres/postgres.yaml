@@ -2,27 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: '23'
-    field.cattle.io/publicEndpoints: >-
-      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:envoy-service","ingressName":"amsc-d3:ingress","hostname":"amsc-d3.ml4phys.com","path":"/","allNodes":true},{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:envoy-service","ingressName":"amsc-d3:ingress","hostname":"ingress.amsc-d3.production.svc.spin.nersc.org","path":"/","allNodes":true}]
+    deployment.kubernetes.io/revision: '6'
     nersc.gov/collab_uids: '102407'
     nersc.gov/gid: '81687'
     nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
     nersc.gov/roles: user
     nersc.gov/uid: '81687'
     nersc.gov/username: esseivaj
-  creationTimestamp: '2026-01-28T21:46:26Z'
-  generation: 95
+  creationTimestamp: '2026-03-09T18:27:35Z'
+  generation: 6
   labels:
-    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-postgres
   managedFields:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
         f:metadata:
-          f:annotations:
-            f:field.cattle.io/publicEndpoints: {}
-            f:nersc.gov/gid: {}
           f:labels:
             .: {}
             f:workload.user.cattle.io/workloadselector: {}
@@ -39,68 +34,46 @@ metadata:
             f:type: {}
           f:template:
             f:metadata:
-              f:annotations:
-                f:cattle.io/timestamp: {}
               f:labels:
                 .: {}
                 f:workload.user.cattle.io/workloadselector: {}
-              f:name: {}
               f:namespace: {}
             f:spec:
               f:containers:
-                k:{"name":"eds-updater"}:
+                k:{"name":"container-0"}:
                   .: {}
-                  f:args: {}
-                  f:command: {}
-                  f:image: {}
-                  f:imagePullPolicy: {}
-                  f:name: {}
-                  f:resources: {}
-                  f:securityContext:
+                  f:env:
                     .: {}
-                    f:allowPrivilegeEscalation: {}
-                    f:capabilities:
+                    k:{"name":"POSTGRES_PASSWORD"}:
                       .: {}
-                      f:drop: {}
-                    f:privileged: {}
-                    f:readOnlyRootFilesystem: {}
-                    f:runAsNonRoot: {}
-                    f:runAsUser: {}
-                  f:stdin: {}
-                  f:stdinOnce: {}
-                  f:terminationMessagePath: {}
-                  f:terminationMessagePolicy: {}
-                  f:tty: {}
-                  f:volumeMounts:
-                    .: {}
-                    k:{"mountPath":"/envoy-config"}:
-                      .: {}
-                      f:mountPath: {}
                       f:name: {}
-                k:{"name":"proxy"}:
-                  .: {}
-                  f:command: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"REMOTE_TRITON_DB_NAME"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"REMOTE_TRITON_DB_PASSWORD"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"REMOTE_TRITON_DB_USER"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
                   f:image: {}
                   f:imagePullPolicy: {}
-                  f:livenessProbe:
-                    .: {}
-                    f:failureThreshold: {}
-                    f:initialDelaySeconds: {}
-                    f:periodSeconds: {}
-                    f:successThreshold: {}
-                    f:tcpSocket:
-                      .: {}
-                      f:port: {}
-                    f:timeoutSeconds: {}
                   f:name: {}
                   f:ports:
                     .: {}
-                    k:{"containerPort":9097,"protocol":"TCP"}:
-                      .: {}
-                      f:containerPort: {}
-                      f:name: {}
-                      f:protocol: {}
-                    k:{"containerPort":9191,"protocol":"TCP"}:
+                    k:{"containerPort":5432,"protocol":"TCP"}:
                       .: {}
                       f:containerPort: {}
                       f:name: {}
@@ -116,13 +89,15 @@ metadata:
                     f:readOnlyRootFilesystem: {}
                     f:runAsNonRoot: {}
                     f:runAsUser: {}
-                  f:stdin: {}
                   f:terminationMessagePath: {}
                   f:terminationMessagePolicy: {}
-                  f:tty: {}
                   f:volumeMounts:
                     .: {}
-                    k:{"mountPath":"/envoy-config"}:
+                    k:{"mountPath":"/docker-entrypoint-initdb.d"}:
+                      .: {}
+                      f:mountPath: {}
+                      f:name: {}
+                    k:{"mountPath":"/var/lib/postgresql"}:
                       .: {}
                       f:mountPath: {}
                       f:name: {}
@@ -135,16 +110,22 @@ metadata:
               f:terminationGracePeriodSeconds: {}
               f:volumes:
                 .: {}
-                k:{"name":"vol-qobq8"}:
+                k:{"name":"vol-8vujs"}:
                   .: {}
                   f:hostPath:
                     .: {}
                     f:path: {}
                     f:type: {}
                   f:name: {}
+                k:{"name":"vol-mbsi7"}:
+                  .: {}
+                  f:name: {}
+                  f:persistentVolumeClaim:
+                    .: {}
+                    f:claimName: {}
       manager: agent
       operation: Update
-      time: '2026-03-09T22:49:08Z'
+      time: '2026-03-09T18:56:58Z'
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -178,18 +159,18 @@ metadata:
       manager: kube-controller-manager
       operation: Update
       subresource: status
-      time: '2026-03-09T22:49:08Z'
-  name: envoy-proxy
+      time: '2026-03-09T18:57:01Z'
+  name: postgres
   namespace: amsc-d3
-  resourceVersion: '1128233817'
-  uid: dc6138c4-b8e3-494e-abf1-b5e8fe3ad381
+  resourceVersion: '1128140865'
+  uid: bb2d364f-0e6e-408d-8d0a-80e288f35830
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
+      workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-postgres
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -198,7 +179,6 @@ spec:
   template:
     metadata:
       annotations:
-        cattle.io/timestamp: '2026-01-30T20:39:06Z'
         nersc.gov/collab_uids: '102407'
         nersc.gov/gid: '81687'
         nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
@@ -207,34 +187,41 @@ spec:
         nersc.gov/username: esseivaj
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
-      name: envoy-proxy
+        workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-postgres
       namespace: amsc-d3
     spec:
       containers:
-        - command:
-            - envoy
-            - '-c'
-            - /envoy-config/envoy_config.yaml
-            - '--component-log-level'
-            - config:debug
-          image: envoyproxy/envoy:v1.37.0
+        - env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgress-password
+                  optional: false
+            - name: REMOTE_TRITON_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: REMOTE_TRITON_DB_NAME
+                  name: postgress-password
+                  optional: false
+            - name: REMOTE_TRITON_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: REMOTE_TRITON_DB_USER
+                  name: postgress-password
+                  optional: false
+            - name: REMOTE_TRITON_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: REMOTE_TRITON_DB_PASSWORD
+                  name: postgress-password
+                  optional: false
+          image: postgres:18
           imagePullPolicy: Always
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 9097
-            timeoutSeconds: 1
-          name: proxy
+          name: container-0
           ports:
-            - containerPort: 9191
-              name: tcp-proxy-port
-              protocol: TCP
-            - containerPort: 9097
-              name: listener
+            - containerPort: 5432
+              name: postgres
               protocol: TCP
           resources: {}
           securityContext:
@@ -246,39 +233,13 @@ spec:
             readOnlyRootFilesystem: false
             runAsNonRoot: true
             runAsUser: 81687
-          stdin: true
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          tty: true
           volumeMounts:
-            - mountPath: /envoy-config
-              name: vol-qobq8
-        - args:
-            - '--source'
-            - http://remote-triton-controller:8080/api/sd/envoy
-          command:
-            - sync_eds.py
-          image: esseivaj/remote-triton-controller:0.1.3
-          imagePullPolicy: Always
-          name: eds-updater
-          resources: {}
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: true
-            runAsUser: 81687
-          stdin: true
-          stdinOnce: true
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          tty: true
-          volumeMounts:
-            - mountPath: /envoy-config
-              name: vol-qobq8
+            - mountPath: /docker-entrypoint-initdb.d
+              name: vol-8vujs
+            - mountPath: /var/lib/postgresql
+              name: vol-mbsi7
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -289,25 +250,28 @@ spec:
       terminationGracePeriodSeconds: 30
       volumes:
         - hostPath:
-            path: /global/cfs/cdirs/m2845/amsc-d3/envoy-config
+            path: /global/cfs/cdirs/m2845/amsc-d3/db-init
             type: Directory
-          name: vol-qobq8
+          name: vol-8vujs
+        - name: vol-mbsi7
+          persistentVolumeClaim:
+            claimName: postgres-store
 status:
   availableReplicas: 1
   conditions:
-    - lastTransitionTime: '2026-01-30T20:50:14Z'
-      lastUpdateTime: '2026-01-30T20:50:14Z'
+    - lastTransitionTime: '2026-03-09T18:41:53Z'
+      lastUpdateTime: '2026-03-09T18:41:53Z'
       message: Deployment has minimum availability.
       reason: MinimumReplicasAvailable
       status: 'True'
       type: Available
-    - lastTransitionTime: '2026-01-28T21:58:10Z'
-      lastUpdateTime: '2026-03-09T22:18:58Z'
-      message: ReplicaSet "envoy-proxy-64dc6dd4bb" has successfully progressed.
+    - lastTransitionTime: '2026-03-09T18:27:35Z'
+      lastUpdateTime: '2026-03-09T18:57:01Z'
+      message: ReplicaSet "postgres-5b498bfb58" has successfully progressed.
       reason: NewReplicaSetAvailable
       status: 'True'
       type: Progressing
-  observedGeneration: 95
+  observedGeneration: 6
   readyReplicas: 1
   replicas: 1
   updatedReplicas: 1

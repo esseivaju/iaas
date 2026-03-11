@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: '23'
+    deployment.kubernetes.io/revision: '10'
     field.cattle.io/publicEndpoints: >-
-      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:envoy-service","ingressName":"amsc-d3:ingress","hostname":"amsc-d3.ml4phys.com","path":"/","allNodes":true},{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:envoy-service","ingressName":"amsc-d3:ingress","hostname":"ingress.amsc-d3.production.svc.spin.nersc.org","path":"/","allNodes":true}]
+      [{"addresses":["128.55.206.106"],"port":80,"protocol":"HTTP","serviceName":"amsc-d3:remote-triton-controller","ingressName":"amsc-d3:api-server","hostname":"api-server.amsc-d3.production.svc.spin.nersc.org","path":"/","allNodes":true}]
     nersc.gov/collab_uids: '102407'
     nersc.gov/gid: '81687'
     nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
     nersc.gov/roles: user
     nersc.gov/uid: '81687'
     nersc.gov/username: esseivaj
-  creationTimestamp: '2026-01-28T21:46:26Z'
-  generation: 95
+  creationTimestamp: '2026-03-04T18:25:11Z'
+  generation: 15
   labels:
-    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
+    workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-remote-triton-controller
   managedFields:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
@@ -22,7 +22,6 @@ metadata:
         f:metadata:
           f:annotations:
             f:field.cattle.io/publicEndpoints: {}
-            f:nersc.gov/gid: {}
           f:labels:
             .: {}
             f:workload.user.cattle.io/workloadselector: {}
@@ -44,17 +43,61 @@ metadata:
               f:labels:
                 .: {}
                 f:workload.user.cattle.io/workloadselector: {}
-              f:name: {}
               f:namespace: {}
             f:spec:
               f:containers:
-                k:{"name":"eds-updater"}:
+                k:{"name":"container-0"}:
                   .: {}
-                  f:args: {}
-                  f:command: {}
+                  f:env:
+                    .: {}
+                    k:{"name":"CONTROLLER_API_TOKEN"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"IRI_ACCESS_TOKEN"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"POSTGRES_DB"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"POSTGRES_HOST"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                    k:{"name":"POSTGRES_PASSWORD"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
+                    k:{"name":"POSTGRES_PORT"}:
+                      .: {}
+                      f:name: {}
+                      f:value: {}
+                    k:{"name":"POSTGRES_USER"}:
+                      .: {}
+                      f:name: {}
+                      f:valueFrom:
+                        .: {}
+                        f:secretKeyRef: {}
                   f:image: {}
                   f:imagePullPolicy: {}
                   f:name: {}
+                  f:ports:
+                    .: {}
+                    k:{"containerPort":8080,"protocol":"TCP"}:
+                      .: {}
+                      f:containerPort: {}
+                      f:name: {}
+                      f:protocol: {}
                   f:resources: {}
                   f:securityContext:
                     .: {}
@@ -73,56 +116,11 @@ metadata:
                   f:tty: {}
                   f:volumeMounts:
                     .: {}
-                    k:{"mountPath":"/envoy-config"}:
+                    k:{"mountPath":"/config"}:
                       .: {}
                       f:mountPath: {}
                       f:name: {}
-                k:{"name":"proxy"}:
-                  .: {}
-                  f:command: {}
-                  f:image: {}
-                  f:imagePullPolicy: {}
-                  f:livenessProbe:
-                    .: {}
-                    f:failureThreshold: {}
-                    f:initialDelaySeconds: {}
-                    f:periodSeconds: {}
-                    f:successThreshold: {}
-                    f:tcpSocket:
-                      .: {}
-                      f:port: {}
-                    f:timeoutSeconds: {}
-                  f:name: {}
-                  f:ports:
-                    .: {}
-                    k:{"containerPort":9097,"protocol":"TCP"}:
-                      .: {}
-                      f:containerPort: {}
-                      f:name: {}
-                      f:protocol: {}
-                    k:{"containerPort":9191,"protocol":"TCP"}:
-                      .: {}
-                      f:containerPort: {}
-                      f:name: {}
-                      f:protocol: {}
-                  f:resources: {}
-                  f:securityContext:
-                    .: {}
-                    f:allowPrivilegeEscalation: {}
-                    f:capabilities:
-                      .: {}
-                      f:drop: {}
-                    f:privileged: {}
-                    f:readOnlyRootFilesystem: {}
-                    f:runAsNonRoot: {}
-                    f:runAsUser: {}
-                  f:stdin: {}
-                  f:terminationMessagePath: {}
-                  f:terminationMessagePolicy: {}
-                  f:tty: {}
-                  f:volumeMounts:
-                    .: {}
-                    k:{"mountPath":"/envoy-config"}:
+                    k:{"mountPath":"/kube-config"}:
                       .: {}
                       f:mountPath: {}
                       f:name: {}
@@ -132,10 +130,20 @@ metadata:
               f:securityContext:
                 .: {}
                 f:fsGroup: {}
+              f:serviceAccount: {}
+              f:serviceAccountName: {}
               f:terminationGracePeriodSeconds: {}
               f:volumes:
                 .: {}
-                k:{"name":"vol-qobq8"}:
+                k:{"name":"vol-ilzla"}:
+                  .: {}
+                  f:name: {}
+                  f:secret:
+                    .: {}
+                    f:defaultMode: {}
+                    f:optional: {}
+                    f:secretName: {}
+                k:{"name":"vol-ngdmc"}:
                   .: {}
                   f:hostPath:
                     .: {}
@@ -144,7 +152,7 @@ metadata:
                   f:name: {}
       manager: agent
       operation: Update
-      time: '2026-03-09T22:49:08Z'
+      time: '2026-03-10T00:20:55Z'
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -178,18 +186,18 @@ metadata:
       manager: kube-controller-manager
       operation: Update
       subresource: status
-      time: '2026-03-09T22:49:08Z'
-  name: envoy-proxy
+      time: '2026-03-10T00:20:59Z'
+  name: remote-triton-controller
   namespace: amsc-d3
-  resourceVersion: '1128233817'
-  uid: dc6138c4-b8e3-494e-abf1-b5e8fe3ad381
+  resourceVersion: '1128271345'
+  uid: 2a269945-e81c-43ba-a3d2-fe6e66cd391e
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
+      workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-remote-triton-controller
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -198,7 +206,7 @@ spec:
   template:
     metadata:
       annotations:
-        cattle.io/timestamp: '2026-01-30T20:39:06Z'
+        cattle.io/timestamp: '2026-03-10T00:20:55Z'
         nersc.gov/collab_uids: '102407'
         nersc.gov/gid: '81687'
         nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
@@ -207,60 +215,52 @@ spec:
         nersc.gov/username: esseivaj
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-envoy-proxy
-      name: envoy-proxy
+        workload.user.cattle.io/workloadselector: apps.deployment-amsc-d3-remote-triton-controller
       namespace: amsc-d3
     spec:
       containers:
-        - command:
-            - envoy
-            - '-c'
-            - /envoy-config/envoy_config.yaml
-            - '--component-log-level'
-            - config:debug
-          image: envoyproxy/envoy:v1.37.0
-          imagePullPolicy: Always
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 9097
-            timeoutSeconds: 1
-          name: proxy
-          ports:
-            - containerPort: 9191
-              name: tcp-proxy-port
-              protocol: TCP
-            - containerPort: 9097
-              name: listener
-              protocol: TCP
-          resources: {}
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: true
-            runAsUser: 81687
-          stdin: true
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          tty: true
-          volumeMounts:
-            - mountPath: /envoy-config
-              name: vol-qobq8
-        - args:
-            - '--source'
-            - http://remote-triton-controller:8080/api/sd/envoy
-          command:
-            - sync_eds.py
+        - env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: REMOTE_TRITON_DB_NAME
+                  name: postgress-password
+                  optional: false
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: REMOTE_TRITON_DB_USER
+                  name: postgress-password
+                  optional: false
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: REMOTE_TRITON_DB_PASSWORD
+                  name: postgress-password
+                  optional: false
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: IRI_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: IRI_ACCESS_TOKEN
+                  name: iri-token
+                  optional: false
+            - name: CONTROLLER_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: api-auth-token
+                  name: api-auth-token
+                  optional: false
+            - name: POSTGRES_PORT
+              value: '5432'
           image: esseivaj/remote-triton-controller:0.1.3
           imagePullPolicy: Always
-          name: eds-updater
+          name: container-0
+          ports:
+            - containerPort: 8080
+              name: api-server
+              protocol: TCP
           resources: {}
           securityContext:
             allowPrivilegeEscalation: false
@@ -277,8 +277,10 @@ spec:
           terminationMessagePolicy: File
           tty: true
           volumeMounts:
-            - mountPath: /envoy-config
-              name: vol-qobq8
+            - mountPath: /kube-config
+              name: vol-ilzla
+            - mountPath: /config
+              name: vol-ngdmc
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -286,28 +288,37 @@ spec:
         fsGroup: 74560
         runAsGroup: 74560
         runAsUser: 81687
+      serviceAccount: default
+      serviceAccountName: default
       terminationGracePeriodSeconds: 30
       volumes:
+        - name: vol-ilzla
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: kubeconfig
         - hostPath:
-            path: /global/cfs/cdirs/m2845/amsc-d3/envoy-config
+            path: /global/cfs/cdirs/m2845/amsc-d3/triton-controller
             type: Directory
-          name: vol-qobq8
+          name: vol-ngdmc
 status:
   availableReplicas: 1
   conditions:
-    - lastTransitionTime: '2026-01-30T20:50:14Z'
-      lastUpdateTime: '2026-01-30T20:50:14Z'
+    - lastTransitionTime: '2026-03-10T00:15:11Z'
+      lastUpdateTime: '2026-03-10T00:15:11Z'
       message: Deployment has minimum availability.
       reason: MinimumReplicasAvailable
       status: 'True'
       type: Available
-    - lastTransitionTime: '2026-01-28T21:58:10Z'
-      lastUpdateTime: '2026-03-09T22:18:58Z'
-      message: ReplicaSet "envoy-proxy-64dc6dd4bb" has successfully progressed.
+    - lastTransitionTime: '2026-03-10T00:15:19Z'
+      lastUpdateTime: '2026-03-10T00:20:59Z'
+      message: >-
+        ReplicaSet "remote-triton-controller-5f86b75dcd" has successfully
+        progressed.
       reason: NewReplicaSetAvailable
       status: 'True'
       type: Progressing
-  observedGeneration: 95
+  observedGeneration: 15
   readyReplicas: 1
   replicas: 1
   updatedReplicas: 1

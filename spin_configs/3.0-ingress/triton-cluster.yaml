@@ -1,0 +1,108 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    field.cattle.io/publicEndpoints: >-
+      [{"addresses":["128.55.206.106"],"port":443,"protocol":"HTTPS","serviceName":"amsc-d3:envoy-service","ingressName":"amsc-d3:triton-cluster","hostname":"triton-cluster-svc.ml4phys.com","path":"/","allNodes":true}]
+    kubectl.kubernetes.io/last-applied-configuration: >-
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"triton-cluster","namespace":"amsc-d3"},"spec":{"ingressClassName":"nginx","rules":[{"host":"triton-cluster-svc.ml4phys.com","http":{"paths":[{"backend":{"service":{"name":"acmecron-inference-spin-acme-websrv","port":{"number":8080}}},"path":"/","pathType":"Prefix"}]}},{"host":"triton-cluster.amsc-d3.production.svc.spin.nersc.org","http":{"paths":[{"backend":{"service":{"name":"acmecron-inference-spin-acme-websrv","port":{"number":8080}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["triton-cluster-svc.ml4phys.com","triton-cluster.amsc-d3.production.svc.spin.nersc.org"],"secretName":"tls-cert-inference"}]}}
+    meta.helm.sh/release-name: acmecron-inference
+    meta.helm.sh/release-namespace: amsc-d3
+    nersc.gov/clustername: production
+    nersc.gov/collab_uids: '102407'
+    nersc.gov/gid: '81687'
+    nersc.gov/gids: 4871,61512,59322,72330,81687,81765,74560,96414,103452,103453,113529
+    nersc.gov/roles: user
+    nersc.gov/serveralias: svc
+    nersc.gov/uid: '81687'
+    nersc.gov/username: esseivaj
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+    nginx.ingress.kubernetes.io/grpc-backend: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+  creationTimestamp: '2026-03-11T17:45:36Z'
+  generation: 4
+  labels:
+    app.kubernetes.io/instance: acmecron-inference
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: spin-acme
+    app.kubernetes.io/version: 1.16.0
+    helm.sh/chart: spin-acme-0.1.0
+  managedFields:
+    - apiVersion: networking.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:meta.helm.sh/release-name: {}
+            f:meta.helm.sh/release-namespace: {}
+          f:labels:
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/managed-by: {}
+            f:app.kubernetes.io/name: {}
+            f:app.kubernetes.io/version: {}
+            f:helm.sh/chart: {}
+        f:spec:
+          f:ingressClassName: {}
+          f:tls: {}
+      manager: helm
+      operation: Apply
+      time: '2026-03-11T17:45:36Z'
+    - apiVersion: networking.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:loadBalancer:
+            f:ingress: {}
+      manager: nginx-ingress-controller
+      operation: Update
+      subresource: status
+      time: '2026-03-11T17:46:26Z'
+    - apiVersion: networking.k8s.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            f:field.cattle.io/publicEndpoints: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+            f:nginx.ingress.kubernetes.io/backend-protocol: {}
+            f:nginx.ingress.kubernetes.io/grpc-backend: {}
+            f:nginx.ingress.kubernetes.io/proxy-body-size: {}
+        f:spec:
+          f:rules: {}
+      manager: agent
+      operation: Update
+      time: '2026-03-11T18:05:55Z'
+  name: triton-cluster
+  namespace: amsc-d3
+  resourceVersion: '1129271614'
+  uid: 5a89670d-cd90-4745-8a15-fb344e617241
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: triton-cluster-svc.ml4phys.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: envoy-service
+                port:
+                  number: 9097
+            path: /
+            pathType: Prefix
+    - host: triton-cluster.amsc-d3.production.svc.spin.nersc.org
+  tls:
+    - hosts:
+        - triton-cluster-svc.ml4phys.com
+        - triton-cluster.amsc-d3.production.svc.spin.nersc.org
+      secretName: tls-cert-inference
+status:
+  loadBalancer:
+    ingress:
+      - ip: 128.55.206.106
+      - ip: 128.55.206.107
+      - ip: 128.55.206.108
+      - ip: 128.55.206.109
+      - ip: 128.55.206.110
+      - ip: 128.55.206.111
+      - ip: 128.55.206.112
+      - ip: 128.55.206.113
